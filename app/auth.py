@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from app import models, schemas, crud
 from app.database import get_db
+from typing import Optional
 
 # Chave secreta (ideal armazenar via variável de ambiente)
 SECRET_KEY = "secreta-muito-forte"
@@ -15,11 +16,20 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/usuarios/login")
 
-def verificar_senha(senha: str, hashed: str):
-    return pwd_context.verify(senha, hashed)
+def gerar_hash_senha(senha: str) -> str:
+    if isinstance(senha, bytes):
+        senha = senha.decode("utf-8", errors="ignore")
+    senha_bytes = senha.encode("utf-8")
+    senha_truncada = senha_bytes[:72].decode("utf-8", errors="ignore")
 
-def gerar_hash_senha(senha: str):
-    return pwd_context.hash(senha)
+    return pwd_context.hash(senha_truncada)
+
+def verificar_senha(senha: str, hashed_senha: str) -> bool:
+    if isinstance(senha, bytes):
+        senha = senha.decode("utf-8", errors="ignore")
+    senha_bytes = senha.encode("utf-8")
+    senha_truncada = senha_bytes[:72].decode("utf-8", errors="ignore")
+    return pwd_context.verify(senha_truncada, hashed_senha)
 
 def criar_token_acesso(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()

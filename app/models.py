@@ -7,14 +7,12 @@ import enum
 
 class Usuario(Base):
     __tablename__ = "usuarios"
-
     id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String, nullable=False)
-    cpf = Column(String, unique=True, nullable=False)
-    senha = Column(String, nullable=False)
-    telefone = Column(String)
-    categoria = Column(String, nullable=False, default="garcom")
-
+    nome = Column(String(100))
+    cpf = Column(String(20), unique=True, index=True)
+    telefone = Column(String(30))
+    categoria = Column(String(30))
+    senha = Column(String(128))  
 class Mesa(Base):
     __tablename__ = "mesas"
     id = Column(Integer, primary_key=True, index=True)

@@ -9,12 +9,14 @@ def criar_usuario(db: Session, usuario: schemas.UsuarioCreate):
         nome=usuario.nome,
         cpf=usuario.cpf,
         telefone=usuario.telefone,
-        senha=hashed_password
+        categoria=usuario.categoria,
+        senha=hashed_password,
     )
     db.add(db_usuario)
     db.commit()
     db.refresh(db_usuario)
     return db_usuario
+
 
 def autenticar_usuario(db: Session, cpf: str, senha: str):
     usuario = get_usuario_by_cpf(db, cpf)

@@ -24,7 +24,8 @@ class UsuarioOut(UsuarioBase):
     id: int
 
     class Config:
-        from_attributes = True
+        from_attributes = True 
+
 
 # Mesas 
 class MesaBase(BaseModel):
@@ -41,7 +42,7 @@ class Mesa(MesaBase):
     status: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True  
 
 
 # Garçons 
@@ -58,13 +59,13 @@ class Garcom(GarcomBase):
     class Config:
         from_attributes = True
 
+
 # Produtos 
 class CategoriaCardapio(str, Enum):
     hamburguer = "hamburguer"
     batata = "batata"
     bebida = "bebida"
     sobremesa = "sobremesa"
-
 
 class ProdutoBase(BaseModel):
     nome: str
@@ -78,10 +79,10 @@ class Produto(ProdutoBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True  
+
 
 # Pedidos 
-
 class ItemPedido(BaseModel):
     produto_id: int
     quantidade: int
@@ -100,4 +101,4 @@ class Pedido(PedidoBase):
     itens: List[ItemPedido]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
