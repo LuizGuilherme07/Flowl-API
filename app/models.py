@@ -3,6 +3,12 @@ from sqlalchemy.orm import relationship
 from app.database import Base
 import enum
 
+class UsuarioCategoriaEnum(str, enum.Enum):
+    mesa = "mesa"
+    garcom = "garcom"
+    cozinha = "cozinha"
+    gerente = "gerente"
+
 # Criação Data Base
 
 class Usuario(Base):
@@ -11,7 +17,7 @@ class Usuario(Base):
     nome = Column(String(100))
     cpf = Column(String(20), unique=True, index=True)
     telefone = Column(String(30))
-    categoria = Column(String(30))
+    categoria = Column(Enum(UsuarioCategoriaEnum), nullable=False)
     senha = Column(String(128))  
 class Mesa(Base):
     __tablename__ = "mesas"
